@@ -1,0 +1,15 @@
+{
+  "name": "PDS 데일리 회고",
+  "short_name": "PDS 회고",
+  "description": "매일 Plan · Do · See 방식으로 기록하는 간단한 회고 앱",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f3efe6",
+  "theme_color": "#f3efe6",
+  "orientation": "portrait-primary",
+  "icons": [
+    {"src":"/icons/icon-192.svg","sizes":"192x192","type":"image/svg+xml","purpose":"any maskable"},
+    {"src":"/icons/icon-512.svg","sizes":"512x512","type":"image/svg+xml","purpose":"any maskable"}
+  ]
+}
