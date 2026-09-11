@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f3efe6" />
+  <meta name="description" content="매일 Plan · Do · See 방식으로 기록하는 간단한 회고 앱" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="PDS 회고" />
+  <title>PDS 데일리 회고</title>
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="hero">
+      <div class="hero-actions">
+        <p class="brand-mark">PDS DAILY</p>
+        <div class="action-group">
+          <button id="install-button" class="round-action install-action" type="button" hidden aria-label="앱 설치">✦</button>
+          <a class="round-action" href="https://app.notion.com/p/668a5ff99fdc4bde98f101f8d28d697f" target="_blank" rel="noreferrer" aria-label="Notion PDS 회고 데이터베이스 열기">↗</a>
+        </div>
+      </div>
+      <h1><span id="greeting">Good morning,</span><br><em>오늘을 가볍게 정리해요.</em></h1>
+      <p id="today-label" class="hero-date"></p>
+    </header>
+
+    <section class="calendar-card" aria-labelledby="calendar-title">
+      <div class="calendar-head">
+        <div>
+          <p class="section-label">DATE</p>
+          <h2 id="calendar-title"><span id="month-label"></span></h2>
+        </div>
+        <div class="calendar-actions">
+          <button id="prev-week" class="mini-circle" type="button" aria-label="이전 주">‹</button>
+          <button id="next-week" class="mini-circle" type="button" aria-label="다음 주">›</button>
+        </div>
+      </div>
+      <div id="week-strip" class="week-strip" aria-label="주간 날짜 선택"></div>
+      <label class="date-picker">
+        <span>날짜 직접 선택</span>
+        <input id="date" type="date" required />
+      </label>
+    </section>
+
+    <section class="reflection-section" aria-labelledby="reflection-title">
+      <div class="section-heading">
+        <div>
+          <p class="section-label">TODAY'S REFLECTION</p>
+          <h2 id="reflection-title">오늘의 PDS</h2>
+        </div>
+        <p class="section-note">한 줄이어도 충분해요</p>
+      </div>
+
+      <form id="pds-form" novalidate>
+        <div class="reflection-stack">
+          <label class="reflection-card plan-card" for="plan">
+            <span class="step-badge">P</span>
+            <span class="reflection-copy"><strong>Plan</strong><small>오늘 하려고 한 핵심은?</small></span>
+            <textarea id="plan" maxlength="10000" placeholder="예: 강의안 1차 완성, 오전 집중시간 확보"></textarea>
+          </label>
+          <label class="reflection-card do-card" for="do">
+            <span class="step-badge">D</span>
+            <span class="reflection-copy"><strong>Do</strong><small>실제로 무엇을 했나?</small></span>
+            <textarea id="do" maxlength="10000" placeholder="예: 슬라이드 24장 정리, 고객 메일 3건 회신"></textarea>
+          </label>
+          <label class="reflection-card see-card" for="see">
+            <span class="step-badge">S</span>
+            <span class="reflection-copy"><strong>See</strong><small>무엇을 배웠고 내일 무엇을 바꿀까?</small></span>
+            <textarea id="see" maxlength="10000" placeholder="예: 완료 기준부터 적으면 실행 속도가 빨라진다"></textarea>
+          </label>
+        </div>
+
+        <section class="choice-card" aria-label="기분과 태그 선택">
+          <fieldset>
+            <legend>기분</legend>
+            <div class="mood-row" id="mood-row">
+              <label><input type="radio" name="mood" value="😄 최고"><span>😄<b>최고</b></span></label>
+              <label><input type="radio" name="mood" value="🙂 좋음"><span>🙂<b>좋음</b></span></label>
+              <label><input type="radio" name="mood" value="😐 보통"><span>😐<b>보통</b></span></label>
+              <label><input type="radio" name="mood" value="😕 아쉬움"><span>😕<b>아쉬움</b></span></label>
+              <label><input type="radio" name="mood" value="😣 힘듦"><span>😣<b>힘듦</b></span></label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>태그</legend>
+            <div class="tag-row" id="tag-row">
+              <label><input type="checkbox" value="업무"><span>업무</span></label>
+              <label><input type="checkbox" value="학습"><span>학습</span></label>
+              <label><input type="checkbox" value="건강"><span>건강</span></label>
+              <label><input type="checkbox" value="관계"><span>관계</span></label>
+              <label><input type="checkbox" value="개인"><span>개인</span></label>
+            </div>
+          </fieldset>
+        </section>
+
+        <div id="access-wrap" class="access-wrap" hidden>
+          <label for="access-key">접근 키</label>
+          <input id="access-key" type="password" autocomplete="current-password" placeholder="접근 키 입력" />
+        </div>
+        <div class="save-dock">
+          <p id="status" class="status" role="status" aria-live="polite"></p>
+          <button id="save-button" type="submit">오늘 회고 저장</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="history-section" aria-labelledby="history-title">
+      <div class="section-heading history-heading">
+        <div><p class="section-label">RECENT</p><h2 id="history-title">최근 회고</h2></div>
+        <button id="refresh-button" class="text-button" type="button">새로고침</button>
+      </div>
+      <div id="history-list" class="history-list"><p class="empty-state">기록을 불러오는 중입니다.</p></div>
+    </section>
+  </main>
+
+  <dialog id="ios-install-dialog" class="install-dialog">
+    <div class="dialog-inner">
+      <p class="section-label">IPHONE</p><h2>홈 화면에 추가</h2>
+      <p>Safari의 <strong>공유</strong> 버튼을 누른 뒤 <strong>홈 화면에 추가</strong>를 선택하면 앱처럼 사용할 수 있습니다.</p>
+      <button id="close-install-dialog" type="button">확인</button>
+    </div>
+  </dialog>
+
+  <template id="entry-template">
+    <article class="entry-card">
+      <div class="entry-top">
+        <div class="entry-date-group"><span class="entry-day-dot" aria-hidden="true"></span><div><time class="entry-date"></time><p class="entry-mood"></p></div></div>
+        <div class="entry-tags"></div>
+      </div>
+      <dl class="entry-pds"><div><dt>P</dt><dd class="entry-plan"></dd></div><div><dt>D</dt><dd class="entry-do"></dd></div><div><dt>S</dt><dd class="entry-see"></dd></div></dl>
+      <a class="entry-link" target="_blank" rel="noreferrer">Notion에서 열기 ↗</a>
+    </article>
+  </template>
+  <script src="/app.js" defer></script>
+</body>
+</html>
